@@ -3,15 +3,18 @@ import Loading from "./Loading"
 import Error from "./Error"
 import Meal from "./Meal"
 
-const Meals = () => {
+import {URL} from "../data"
+
+const Meals = ({country}) => {
 
     const [isLoading, setIsLoading] = useState(true)
     const [meals, setMeals] = useState(null)
     const [error, setError] = useState(false)
 
     useEffect(() => {
+        setIsLoading( true )
         setTimeout( () => {
-            fetch('https://www.themealdb.com/api/json/v1/1/filter.php?a=Japanese')
+            fetch(`${URL}filter.php?a=${country}`)
                 .then(response => response.json())
                 .then(data => {
                     setMeals( data.meals )
@@ -21,12 +24,8 @@ const Meals = () => {
                     setError( error.message )
                 })
         }, 1000 )
-    }, []);
+    }, [country]);
 
-
-    useEffect(() => {
-        console.log( error )
-    }, [error]);
 
 
     const renderMeals = () => {
